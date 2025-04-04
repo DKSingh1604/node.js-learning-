@@ -1,8 +1,8 @@
-// console.log(__dirname);
-// console.log(__filename);
+//CommonJs as a library
+//M O D U L E S  - Encapsulated code(only share minimum)
 
-setInterval(() => {
-    console.log("Namaskaar jagat!");
-    
-}, 1000);
+const names = require('./4-names');
+const sayHi = require('./5-utils');
 
+sayHi("DK");
+// console.log(names);
