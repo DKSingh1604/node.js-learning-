@@ -1,8 +1,11 @@
-//CommonJs as a library
-//M O D U L E S  - Encapsulated code(only share minimum)
+const {readFileSync, writeFileSync} = require('fs');
+// const fs = require('fs');
+// fs.readFileSync
 
-const names = require('./4-names');
-const sayHi = require('./5-utils');
+const first = readFileSync('./content/first.txt', 'utf-8');
+const second = readFileSync('./content/second.txt', 'utf-8');
+console.log(first,second);
 
-sayHi("DK");
-// console.log(names);
+
+
+
