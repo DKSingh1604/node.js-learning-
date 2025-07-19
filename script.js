@@ -1,146 +1,79 @@
-const cart = ["shoes", "pants", "jeans"];
-// Catch function checks for error for then functions whoch are above it,
-// If I put a catch function after the first then and if the car is invalid, it will still show "Payment Succesful"
+//PROMISE APIs
 
-//Producer
-function validateCart(cart) {
-  return true;
-}
+// what if we want to send many promises at the same time, ans get their results parallely
 
-function createOrder(cart) {
-  const pr = new Promise(function (
-    resolve,
-    reject
-  ) {
-    //create order
-    //validate the cart
-    //order Id
-    if (!validateCart(cart)) {
-      //error part
-      const err = new Error("Cart is not valid.");
-      reject(err);
-    }
-    //logic for create Order
-    const orderId = "122345689";
-    if (orderId && validateCart(cart)) {
-      //success part
-      setTimeout(function () {
-        console.log(
-          "You have successfully created your order."
-        );
-        resolve(`Your order ID: ${orderId}`);
-      }, 2000);
-    }
-  });
-  return pr;
-}
+// ----------------------------------------------------------------------
 
-function proceedToPayment(orderId) {
-  //logic for handling payment
-  return new Promise(function (resolve, reject) {
-    resolve("Payment successful");
-  });
-}
+//    1 -                        Promise.all() => Fail Fast
+/*
+will take an array of promises as input and return there result array after some time.
 
-createOrder(cart)
-  .then(function (orderId) {
-    console.log(orderId);
-    return orderId;
-  })
+Eg - Promise.all([p1, p2, p3]), 
 
-  .then(function (orderId) {
-    return proceedToPayment(orderId);
-  })
-  .then(function (paymentInfo) {
-    console.log(paymentInfo);
-  })
-  .catch(function (err) {
-    console.log(err.message);
-  });
+if p1 - 1 sec
+p2 - 3 sec
+p3 - 5 sec
+if all resolved, - > reply to the promise will come back in 5 sec(longest promise time), because it has to return parallely,
 
-// HW
+But if any one of them fails,  -> an error will be returned as soon as any one of the promises gets rejected, no wait for the others to finish.
 
-// function validateCart() {
-//   return true;
-// }
-// function createOrder(cart) {
-//   const pr = new Promise(function (
-//     resolve,
-//     reject
-//   ) {
-//     //create order
-//     //validate the cart
-//     //order Id
-//     if (!validateCart(cart)) {
-//       //error part
-//       const err = new Error("Cart is not valid.");
-//       reject(err);
-//     }
-//     //logic for create Order
-//     const orderId = "122345689";
-//     if (orderId && validateCart(cart)) {
-//       //success part
-//       setTimeout(function () {
-//         console.log(
-//           "You have successfully created your order."
-//         );
-//         resolve(`Your order ID: ${orderId}`);
-//       }, 2000);
-//     }
-//   });
-//   return pr;
-// }
 
-// function proceedToPayment(orderId) {
-//   //logic for handling payment
-//   return new Promise(function (resolve, reject) {
-//     resolve({
-//       message: `Payment successful for order ID ${orderId}`,
-//       amount: 25000,
-//     });
-//   });
-// }
-// //
-// function showOrderSummary(paymentInfo, amount) {
-//   return new Promise(function (resolve, reject) {
-//     if (amount >= 20000) {
-//       resolve({
-//         message: `Since your order is of $\${amount}, you are eligible for a discount`,
-//       }); //maybe here
-//     } else {
-//       reject(
-//         new Error(
-//           "Please buy more to avail discount."
-//         )
-//       );
-//     }
-//   });
-// }
 
-// function upadateWallet(amount) {
-//   return new Promise(function (resolve, reject) {
-//     if (showOrderSummary) {
-//       resolve("Your wallet was updated.");
-//     } else {
-//       const err = new Error(
-//         "Couldn't update wallet."
-//       );
-//       reject(err);
-//     }
-//   });
-// }
 
-// //Promise chain
+------------------------------------------------------------------------
 
-// const cart = ["shoes", "pants", "kurtas"];
+2 - 
 
-// createOrder(cart).then(function(orderId){
-//   console.log(orderId);
-//   return orderId;
-// }).then(function(orderId){
-//   return proceedToPayment(orderId)
-// }).then(function({meassage, amount}){
-//   console.log(message, 'of amount: ', amount);
-//   return showOrderSummary(pa)
+What if we atleast want to get the results of the promises which are resolved,  ->                Promise.allSettled()
 
-// })
+
+if all resolved -> same as Promise.all()
+if p1 - 1 sec
+p2      -> gets rejected after 1 sec
+p3 - 5 sec
+
+If one of them gets rejected after some time, it will keep on working till all the promises are settled, that is till 5 seconds.
+
+After 5 seconds it will pass and array result, somewhat like
+                     [r1, error2, r3]
+
+
+-------------------------------------------------------------------------
+
+3 -                           Promise.race() => Settled First
+
+what if we want the value of the first settled promise, we use .race().
+As soon as one of the promises is settled, it wil return back the value, without waiting for the others.
+
+if p1 - 2 sec
+p2      -> gets rejected/resolved after 1 sec
+p3 - 5 sec
+
+Eg - Promise.race([p1, p2, p3]);
+
+It will return back the value/error or the p2, as it got settled first.
+doesn't give a sh*t about others
+
+
+
+------------------------------------------------------------------------
+
+
+4 -                               Promise.any() => Pass First
+
+what if we want the first resolved(succes) promise to be returned, we use .any(). This will return the value of first resolved promise.
+
+For Eg- 
+p1 - 2 sec
+p2      -> gets resolved after 1 sec
+p3 - 5 sec
+
+The value of the p2 promise will be returned in 1 sec.
+
+
+what if for the above eg p2 gets rejected after 1 sec i.e.
+p1 - 2 sec
+p2      -> gets resolved after 1 sec
+p3 - 5 sec
+
+*/
