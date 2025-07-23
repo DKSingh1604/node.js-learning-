@@ -1,0 +1,9 @@
+ Ep-1 Intro to Node.js
+
+ Where there is Js there will be a Js Engine.
+ 
+ initially Js was ran on spider monkey engine, of mozilla. Eventually it was run on V8 engine of google chrome.
+
+initally it was called web.js, then people got to knoe that we use it anywhere, and not just aweb, so it was named node.js
+In 2011, Js supported window, Joyent+Microsoft.
+
