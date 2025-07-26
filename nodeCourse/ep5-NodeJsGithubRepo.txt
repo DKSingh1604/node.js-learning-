@@ -1,0 +1,19 @@
+5 steps that take place when you require a path
+
+1- Resolving the module -> 
+   which type of module it is .localPath, .json, .nodemodule etc.
+
+2- Loading the module -> 
+   file content is loaded according to the file type.
+
+3- Wraps inside the IIFE function
+
+4- Evaluation -> 
+   module.exports happen
+
+5- Caching(very important)
+   If a particular module is required by multiple files, it is cached when it runs only once.
+
+   For eg - If sum.js is required by both calculate and compute file, it will cache the result of sum.js, when it runs for the first time, and will log the result from the cache whenever next time it is needed.
+
+   If we keep on loading sum.js again and again, we will be very unefficient.
