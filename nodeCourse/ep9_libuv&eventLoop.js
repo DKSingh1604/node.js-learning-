@@ -20,7 +20,9 @@
         Top priority => process.nextTick() -> checked before every phase
                      => promise callbacks - > checked before every phase
 
-        When everthing is executed and the callback queues are empty now, the event loop will wait at the pole phase.
+        When everthing is executed and the callback queues are empty now, the event loop will wait at the pole phase.  
 
     Thread Pool
 */
+
+//output
